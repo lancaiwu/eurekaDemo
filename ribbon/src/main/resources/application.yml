@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ribbon-consumer
+server:
+  port: 9000
+name: lcw
+password: 123456
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${name}:${password}@localhost:8080/eureka/
+  instance:
+    hostname: localhost
