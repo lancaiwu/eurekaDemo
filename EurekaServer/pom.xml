@@ -23,6 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Edgware.SR2</spring-cloud.version>
+		<docker.image.prefix>springboot</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -55,11 +56,33 @@
 	</dependencyManagement>
 
 	<build>
+		<!-- 指定package生成的文件名为my-spring-boot.jar -->
+		<finalName>eureka-server</finalName>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- tag::plugin[] -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<!-- dockerDirectory指定 Dockerfile 的位置 -->
+					<dockerDirectory>src/main/docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			<!-- end::plugin[] -->
 		</plugins>
 	</build>
 
