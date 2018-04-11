@@ -12,7 +12,6 @@ eureka:
   instance:
     metadataMap:
       instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-      hostname: localhost
     prefer-ip-address: true
 security:
   user:
